@@ -1,33 +1,31 @@
 <?php
-require "database.php";
+require 'database.php';
+$conn = new mysqli("localhost", "root", "", "productmanagement");
 
-if(isset($_POST["signup"])){
-  $register = new Register();
-  $result = $register->registration($_POST["fname"], $_POST["lname"], $_POST["gender"], $_POST["email"], $_POST["contact"],$_POST["password"], $_POST["confirmpassword"]);
-
-  if($result == 1){
-    echo
-    "<script> alert('Registration Successful'); </script>";
-    header("Location: dashboard.php");
-  }
-  elseif($result == 10){
-    echo
-    "<script> alert('Username or Email Has Already Taken'); </script>";
-  }
-  elseif($result == 100){
-    echo
-    "<script> alert('Password Does Not Match'); </script>";
-  }
+if(isset($_POST['editvendor']))
+{
+ $id=$_GET['id'];
+ $fname = $_POST['fname'];
+ $lname = $_POST['lname'];
+ $gender = $_POST['gender'];
+ $email = $_POST['email'];
+ $contact = $_POST['contact'];
+ 
+ 
+ $res= new Database();
+ $res->edit('users',$id,$fname,$lname,$gender,$email,$contact);
+if ($res == true) {
+ header('location:dashboard.php');
+}
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register</title>
+  <title>Edit Vendor</title>
   
   <style>
     @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700');
@@ -120,40 +118,45 @@ button:hover{
 <body>
     <div class="container">
   <div class="title">
-      <h2>Vendor Registration Form</h2>
+      <h2>Vendor Update Form</h2>
   </div>
 <div class="d-flex">
   <form action="" method="POST" autocomplete="off">
+    <?php
+    $id = $_GET['id'];
+    $rows = mysqli_fetch_assoc(mysqli_query($conn,"SELECT * FROM users WHERE id = $id"));
+    ?>
+    <input type="hidden" id="id" value="<?php echo $rows['id'];?>">
     <label>
       <span class="fname">First Name <span class="required">*</span></span>
-      <input type="text" name="fname">
+      <input type="text" name="fname" value="<?php echo $rows['fname'];?>">
     </label>
     <label>
       <span class="lname">Last Name <span class="required">*</span></span>
-      <input type="text" name="lname">
+      <input type="text" name="lname" value="<?php echo $rows['lname'];?>">
     </label>
     <label>
       <span class="gender">Gender<span class="required">*</span></span>
-    <input type="radio" id="gender" name="gender" value="male" class="gender" for="gender">Male</input>
-    <input type="radio" id="gender" name="gender" value="female" class="gender" for="gender">Female</input> 
+    <input type="radio" id="gender" name="gender" value="<?php echo $rows['gender'];?>" class="gender" for="gender">Male</input>
+    <input type="radio" id="gender" name="gender" value="<?php echo $rows['gender'];?>" class="gender" for="gender">Female</input> 
     </label>
     <label>
       <span>Email-id <span class="required">*</span></span>
-      <input type="email" name="email"> 
+      <input type="email" name="email" value="<?php echo $rows['email'];?>"> 
     </label>
     <label>
       <span>Contact <span class="required">*</span></span>
-      <input type="tel" name="contact"> 
+      <input type="tel" name="contact" value="<?php echo $rows['contact'];?>"> 
     </label>
     <label>
       <span>Password <span class="required">*</span></span>
-      <input type="password" name="password"> 
+      <input type="password" name="password" value="<?php echo $rows['password'];?>"> 
     </label>
     <label>
       <span>Confirm Password <span class="required">*</span></span>
       <input type="password" name="confirmpassword"> 
     </label>
-    <button type="submit" name="signup">Submit</button>
+    <button type="submit" name="editvendor">Submit</button>
   </form>
  </div>
 </div>

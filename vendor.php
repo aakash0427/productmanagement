@@ -14,9 +14,8 @@
 
 /* Bootstrap Icons */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
+</style>
 
-
-        </style>
 </head>
 <body>
 <!-- Dashboard -->
@@ -83,7 +82,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="vendorlogout.php">
                             <i class="bi bi-box-arrow-left"></i> Logout
                         </a>
                     </li>
@@ -132,9 +131,16 @@
         <!-- Main -->
         <main class="py-6 bg-surface-secondary">
             <div class="container-fluid">
+            <form class="form-group">
+            <div class="input-group">
+            <input type="text" name="search_text" id="search_text" placeholder="Search by Vendor Details" class="form-control" />
+            <input type="submit" id="submit" value="Go"></div>
+            </form>
+            </br>
+                <div id="result"></div>
                 <div class="card shadow border-0 mb-7">
                     <div class="table-responsive">
-                        <table class="table table-hover table-nowrap">
+                        <table class="table table-hover table-nowrap" >
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">ID</th>
@@ -147,15 +153,22 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php
+                                require 'database.php';
+                                $conn = new mysqli("localhost", "root", "", "productmanagement");
+                                $getQuery = "SELECT * FROM users";
+                                $result = mysqli_query($conn, $getQuery) or die(mysqli_error($conn));
+                                while ($row = mysqli_fetch_array($result)) {
+                                    ?>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><?php echo $row['id'];?></td>
+                                    <td><?php echo $row['fname'];?></td>
+                                    <td><?php echo $row['lname'];?></td>
+                                    <td><?php echo $row['gender'];?></td>
+                                    <td><?php echo $row['email'];?></td>
+                                    <td><?php echo $row['contact'];?></td>
                                     <td>
-                                        <a href="#" class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
+                                        <a href="editvendor.php?id=<?php echo $row['id'];?>" class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
                                     <span class=" pe-2">
                                         <i class="bi bi-pencil"></i>
                                     </span>
@@ -165,12 +178,15 @@
                                         </button>
                                     </td>
                                 </tr>
+                                <?php
+                                }
+                                ?>
                             </tbody>
                         </table>
                     </div>
-                    <div class="card-footer border-0 py-5">
+                    <!-- <div class="card-footer border-0 py-5">
                         <span class="text-muted text-sm">Showing 10 items out of 250 results found</span>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </main>
@@ -178,3 +194,33 @@
 </div> 
 </body>
 </html>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
+<script>
+$(document).ready(function(){
+ load_data();
+ function load_data(query)
+ {
+  $.ajax({
+   url:"vendorsearch.php",
+   method:"POST",
+   data:{query:query},
+   success:function(data)
+   {
+    $('#result').html(data);
+   }
+  });
+ }
+ $('#search_text').submit(function(){
+  var search = $(this).val();
+  if(search != '')
+  {
+   load_data(search);
+  }
+  else
+  {
+   load_data();
+  }
+ });
+});
+</script>

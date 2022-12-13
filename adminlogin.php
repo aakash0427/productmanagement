@@ -1,10 +1,9 @@
 <?php
 require "database.php";
 
-if(isset($_POST["signin"])){
-
-  $login = new Login();
-  $result = $login->login($_POST["email"], $_POST["password"]);
+if(isset($_POST["admin_in"])){
+  $login = new AdminLogin();
+  $result = $login->adminlogin($_POST["email"], $_POST["password"]);
   if($result == 1){
     $_SESSION["login"] = true;
     $_SESSION["id"] = $login->idUser();
@@ -16,7 +15,7 @@ if(isset($_POST["signin"])){
   }
   elseif($result == 100){
     echo
-    "<script> alert('User Not Registered'); </script>";
+    "<script> alert('Admin Not Registered'); </script>";
   }
 }
 ?>
@@ -195,7 +194,7 @@ body {
 					<i class="login__icon fas fa-lock"></i>
 					<input type="password" class="login__input" name="password" placeholder="Password">
 				</div>
-				<button class="button login__submit" type="submit" name="signin">
+				<button class="button login__submit" type="submit" name="admin_in">
 					<span class="button__text">Log In Now</span>
 					<i class="button__icon fas fa-chevron-right"></i>
 				</button>				

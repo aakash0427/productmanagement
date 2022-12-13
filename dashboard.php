@@ -1,14 +1,31 @@
+<?php
+require 'database.php';
+$conn = new mysqli("localhost", "root", "", "productmanagement");
+$query = "SELECT * FROM product ORDER BY id DESC";  
+$result = mysqli_query($conn, $query);
+$select = new Select();
+if(!empty($_SESSION["id"])){
+  $user = $select->selectUserById($_SESSION["id"]);
+  header("Location:dashboard.php");
+}
+
+$limit = 5;
+if (!isset ($_GET['page']) ) {  
+$page_number = 1;  
+} else {  
+$page_number = $_GET['page'];  
+
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Document</title>
     <style>
-        /* Webpixels CSS */
-/* Utility and component-centric Design System based on Bootstrap for fast, responsive UI development */
-/* URL: https://github.com/webpixels/css */
 
 @import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
 
@@ -83,7 +100,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="adminlogout.php">
                             <i class="bi bi-box-arrow-left"></i> Logout
                         </a>
                     </li>
@@ -119,12 +136,6 @@
                         <li class="nav-item ">
                             <a href="#" class="nav-link active">All Products</a>
                         </li>
-                        <!-- <li class="nav-item">
-                            <a href="#" class="nav-link font-regular">Shared</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link font-regular">File requests</a>
-                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -133,47 +144,62 @@
         <main class="py-6 bg-surface-secondary">
             <div class="container-fluid">
                 <div class="card shadow border-0 mb-7">
-                    <div class="table-responsive">
+                    <div class="table-responsive" id="product_table">
                         <table class="table table-hover table-nowrap">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Product Name</th>
-                                    <th scope="col">SKU</th>
-                                    <th scope="col">Pattern</th>
-                                    <th scope="col">Size</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Shipping</th>
-                                    <th scope="col">Status</th>
+                                    <th scope="col"><a class="column_sort" id="id" data-order="desc" href="#">ID</th>
+                                    <th scope="col"><a class="column_sort" id="productname" data-order="desc" href="#">Product Name</th>
+                                    <th scope="col"><a class="column_sort" id="sku" data-order="desc" href="#">SKU</th>
+                                    <th scope="col"><a class="column_sort" id="multiselect" data-order="desc" href="#">Pattern</th>
+                                    <th scope="col"><a class="column_sort" id="size" data-order="desc" href="#">Size</th>
+                                    <th scope="col"><a class="column_sort" id="quantity" data-order="desc" href="#">Quantity</th>
+                                    <th scope="col"><a class="column_sort" id="shipping" data-order="desc" href="#">Shipping</th>
+                                    <th scope="col"><a class="column_sort" id="sel" data-order="desc" href="#">Status</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php
+                                $getQuery = "SELECT * FROM product";
+                                $result = mysqli_query($conn, $getQuery) or die(mysqli_error($conn));
+                                $total_rows = mysqli_num_rows($result); 
+                                $total_pages = ceil ($total_rows / $limit); 
+                                $initial_page = ($page_number-1) * $limit;   
+                                $getQuery = "SELECT *FROM product LIMIT " . $initial_page . ',' . $limit; 
+                                $result = mysqli_query($conn, $getQuery);
+                                while ($row = mysqli_fetch_array($result)) {
+                                    ?>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><?php echo $row['id'];?></td>
+                                    <td><?php echo $row['productname'];?></td>
+                                    <td><?php echo $row['sku'];?></td>
+                                    <td><?php echo $row['pattern'];?></td>
+                                    <td><?php echo $row['size'];?></td>
+                                    <td><?php echo $row['quantity'];?></td>
+                                    <td><?php echo $row['shipping'];?></td>
+                                    <td><?php echo $row['status'];?></td>
                                     <td>
-                                        <a href="#" class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
+                                        <a href="editproduct.php?id=<?php echo $row['id'];?>" class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
                                     <span class=" pe-2">
                                         <i class="bi bi-pencil"></i>
                                     </span>
                                     <span>Edit</span></a>
-                                        <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
+                                       <a href="deleteproduct.php?id=<?php echo $row['id'];?>"> <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
                                             <i class="bi bi-trash"></i>
-                                        </button>
+                                        </button></a>
                                     </td>
                                 </tr>
+                                <?php
+                                }
+                                ?>
                             </tbody>
                         </table>
-                    </div>
-                    <div class="card-footer border-0 py-5">
-                        <span class="text-muted text-sm">Showing 10 items out of 250 results found</span>
+                        <?php 
+                        for($page_number = 1; $page_number<= $total_pages; $page_number++) {  
+                        echo '<a href = "dashboard.php?page=' . $page_number . '">' . $page_number . ' </a>';  
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -181,4 +207,34 @@
     </div>
 </div> 
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>  
+<script>  
+ $(document).ready(function(){  
+      $(document).on('click', '.column_sort', function(){  
+           var column_name = $(this).attr("id");  
+           var order = $(this).data("order");  
+           var arrow = '';  
+           //glyphicon glyphicon-arrow-up  
+           //glyphicon glyphicon-arrow-down  
+           if(order == 'desc')  
+           {  
+                arrow = '&nbsp;<span class="glyphicon glyphicon-arrow-down"></span>';  
+           }  
+           else  
+           {  
+                arrow = '&nbsp;<span class="glyphicon glyphicon-arrow-up"></span>';  
+           }  
+           $.ajax({  
+                url:"sortproductdata.php",  
+                method:"POST",  
+                data:{column_name:column_name, order:order},  
+                success:function(data)  
+                {  
+                     $('#product_table').html(data);  
+                     $('#'+column_name+'').append(arrow);  
+                }  
+           })  
+      });  
+ });  
+ </script> 
 </html>

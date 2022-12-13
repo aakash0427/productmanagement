@@ -16,6 +16,12 @@ class Database{
   $sql="INSERT INTO $table($table_columns) VALUES('$table_value')";
   $result = $this->conn->query($sql);
   }
+
+  public function edit($table,$id,$sku,$quantity)
+  {
+  $res = mysqli_query($this->conn,"UPDATE $table SET id='$id', sku='$sku', quantity='$quantity' WHERE id=".$id);
+  return $res;
+  }
 }
 
 class Login extends Database{
@@ -65,6 +71,40 @@ class Register extends Database{
         // Password does not match
       }
     }
+  }
+}
+
+class Select extends Database{
+  public function selectUserById($id){
+    $result = mysqli_query($this->conn, "SELECT * FROM users WHERE id = $id");
+    return mysqli_fetch_assoc($result);
+  }
+}
+
+class AdminLogin extends Database{
+  public $id;
+  public function adminlogin($email, $password){
+    $result = mysqli_query($this->conn, "SELECT * FROM admins WHERE email = '$email'");
+    $row = mysqli_fetch_assoc($result);
+    if(mysqli_num_rows($result) > 0){
+      if($password == $row["password"]){
+        $this->id = $row["id"];
+        return 1;
+        // Login successful
+      }
+      else{
+        return 10;
+        // Wrong password
+      }
+    }
+    else{
+      return 100;
+      // User not registered
+    }
+  }
+
+  public function idUser(){
+    return $this->id;
   }
 }
 ?>
