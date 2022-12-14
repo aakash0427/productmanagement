@@ -26,24 +26,22 @@ class Database{
 
 class Login extends Database{
   public $id;
-  public function login($email, $password){
-    $result = mysqli_query($this->conn, "SELECT * FROM users WHERE email = '$email'");
-    $row = mysqli_fetch_assoc($result);
-    if(mysqli_num_rows($result) > 0){
-      if($password == $row["password"]){
-        $this->id = $row["id"];
-        return 1;
-        // Login successful
-      }
-      else{
-        return 10;
-        // Wrong password
-      }
-    }
-    else{
-      return 100;
-      // User not registered
-    }
+  public function login($email, $password, $type){
+  $sql= "SELECT * FROM admins WHERE email='".$email."' AND password='".$password."' AND type='".$type."'";
+  $query= mysqli_query($this->conn, $sql);
+
+  if(mysqli_num_rows($query)==1 && $type==1)
+  {
+    header("location:dashboard.php");
+  }
+  elseif(mysqli_num_rows($query)==1 && $type==0)
+  {
+    header("location:vendorin.php");
+  }
+  else
+  {
+    header("login.php");
+  }
   }
 
   public function idUser(){
@@ -61,6 +59,8 @@ class Register extends Database{
     }
     else{
       if($password == $confirmpassword){
+        $query1 = "INSERT INTO admins (`email`, `password`, `type`) VALUES('$email','$password',0)";
+        $result = mysqli_query($this->conn,$query1);
         $query = "INSERT INTO users VALUES('','$fname', '$lname', '$gender', '$email', '$contact', '$password')";
         mysqli_query($this->conn, $query);
         return 1;
@@ -78,33 +78,6 @@ class Select extends Database{
   public function selectUserById($id){
     $result = mysqli_query($this->conn, "SELECT * FROM users WHERE id = $id");
     return mysqli_fetch_assoc($result);
-  }
-}
-
-class AdminLogin extends Database{
-  public $id;
-  public function adminlogin($email, $password){
-    $result = mysqli_query($this->conn, "SELECT * FROM admins WHERE email = '$email'");
-    $row = mysqli_fetch_assoc($result);
-    if(mysqli_num_rows($result) > 0){
-      if($password == $row["password"]){
-        $this->id = $row["id"];
-        return 1;
-        // Login successful
-      }
-      else{
-        return 10;
-        // Wrong password
-      }
-    }
-    else{
-      return 100;
-      // User not registered
-    }
-  }
-
-  public function idUser(){
-    return $this->id;
   }
 }
 ?>

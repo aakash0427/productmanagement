@@ -1,30 +1,28 @@
 <?php
-require "database.php";
+require 'database.php';
+$conn = new mysqli("localhost", "root", "", "productmanagement");
 
-if(isset($_POST['add'])){
-  $productname=$_POST['productname'];
-  $sku=$_POST['sku'];
-  $pattern=implode($_POST['pattern']);
-  $size=implode($_POST['size']);
-  $quantity=$_POST['quantity'];
-  $shipping=$_POST['shipping'];
-  $status=$_POST['status'];
-
-  $res= new Database();
-  $res->insert('product',['productname'=>$productname,'sku'=>$sku,'pattern'=>$pattern ,'size'=>$size ,'quantity'=>$quantity , 'shipping'=>$shipping, 'status'=>$status]);
-  if ($res == true) {
-    header('location:dashboard.php');
-  }
+if(isset($_POST['update']))
+{
+ $id=$_GET['id'];
+ $sku = $_POST['sku'];
+ $quantity = $_POST['quantity'];
+ 
+ 
+ $res= new Database();
+ $res->edit('product',$id,$sku,$quantity);
+if ($res == true) {
+ header('location:dashboard.php');
+}
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AddProductForm</title>
+  <title>EditProductForm</title>
   
   <style>
     @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700');
@@ -33,7 +31,7 @@ body{
   background: url('http://all4desktop.com/data_images/original/4236532-background-images.jpg');
   font-family: 'Roboto Condensed', sans-serif;
   color: #262626;
-  margin: 0% 0;
+  margin: 5% 0;
 }
 .container{
   width: 50%;
@@ -41,19 +39,6 @@ body{
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
-
-  display: flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 100vh;
-}
-
-.screen {		
-	background: linear-gradient(90deg, #5D54A4, #7C78B8);		
-	position: relative;	
-	height: 643px;
-	width: 860px;	
-	box-shadow: 0px 0px 24px #5C5696;
 }
 @media (min-width: 1200px)
 {
@@ -132,70 +117,61 @@ button:hover{
 </head>
 <body>
     <div class="container">
-      <div class="screen">
   <div class="title">
-      <h2>Add Product Form</h2>
+      <h2>Edit Product Form</h2>
   </div>
 <div class="d-flex">
   <form action="" method="POST" autocomplete="off">
+  <?php
+    $id = $_GET['id'];
+    $rows = mysqli_fetch_assoc(mysqli_query($conn,"SELECT * FROM product WHERE id = $id"));
+    ?>
+    <input type="hidden" id="id" value="<?php echo $rows['id'];?>">
     <label>
       <span class="name">Product Name <span class="required">*</span></span>
-      <input type="text" name="productname" id="productname">
+      <input type="text" name="productname" value="<?php echo $rows['productname'];?>" disabled>
     </label>
     <label>
       <span class="sku">SKU <span class="required">*</span></span>
-      <input type="text" name="sku" id="sku">
+      <input type="text" name="sku" value="<?php echo $rows['sku'];?>" disabled>
     </label>
     <label>
       <span>Pattern <span class="required">*</span></span>
-      <select id="multiselect" name="pattern[]" multiple="multiple">
-        <option value="select" disabled>Select a pattern...</option>
-        <option name="pattern" value="shirt">Shirt</option>
-        <option name="pattern" value="tshirt">T-Shirt</option>
-        <option name="pattern" value="pant">Pant</option>
-        <option name="pattern" value="trouser">Trouser</option>
-        <option name="pattern" value="jacket">Jacket</option>
+      <select name="pattern">
+        <option value="select">Select a pattern...</option>
+        <option name="pattern" value="<?php echo $rows['pattern'];?>" disabled>Shirt</option>
+        <option name="pattern" value="<?php echo $rows['pattern'];?>" disabled>T-Shirt</option>
+        <option name="pattern" value="<?php echo $rows['pattern'];?>" disabled>Pant</option>
+        <option name="pattern" value="<?php echo $rows['pattern'];?>" disabled>Trouser</option>
+        <option name="pattern" value="<?php echo $rows['pattern'];?>" disabled>Jacket</option>
       </select>
     </label>
     <div class="row">
-        <label><span>Size <span class="required">*</span></span></label>
-        <input type="Checkbox" name="size[]" id="size" value="small">Small
-        <input type="Checkbox" name="size[]" id="size" value="medium">Medium
-        <input type="Checkbox" name="size[]" id="size" value="large">Large
-        <input type="Checkbox" name="size[]" id="size" value="xlarge">X-Large
+        <label><span>Size <span class="required" name="size">*</span></span></label>
+        <input type="Checkbox" name="size" value="<?php echo $rows['size'];?>" disabled>Small
+        <input type="Checkbox" name="size" value="<?php echo $rows['size'];?>" disabled>Medium
+        <input type="Checkbox" name="size" value="<?php echo $rows['size'];?>" disabled>Large
+        <input type="Checkbox" name="size" value="<?php echo $rows['size'];?>" disabled>X-Large
     </div></br>
     <label>
       <span>Quantity <span class="required">*</span></span>
-      <select name="quantity" id="quantity">
+      <select name="quantity" value="<?php echo $rows['quantity'];?>">
         <option value="select">Select quantity...</option>
-        <option name="quantity" value="1">1</option>
-        <option name="quantity" value="2">2</option>
-        <option name="quantity" value="3">3</option>
-        <option name="quantity" value="4">4</option>
-        <option name="quantity" value="5">5</option>
+        <option name="quantity" value="<?php echo $rows['1'];?>">1</option>
+        <option name="quantity" value="<?php echo $rows['2'];?>">2</option>
+        <option name="quantity" value="<?php echo $rows['3'];?>">3</option>
+        <option name="quantity" value="<?php echo $rows['4'];?>">4</option>
+        <option name="quantity" value="<?php echo $rows['5'];?>">5</option>
       </select>
     </label>
     <label>
       <span class="shipping">Shipping<span class="required">*</span></span>
-      <input type="number" value="" name="shipping" id="shipping">
-    </label>
-    <label>
-      <span>Status <span class="required">*</span></span>
-      <select name="status" id="sel">
-        <option value="select">Select Status...</option>
-        <option name="status" id="active" value="active">Active</option>
-        <option name="status" id="inactive" value="inactive">Inactive</option>
-      </select>
+      <input type="number" value="<?php echo $rows['shipping'];?>" name="shipping" disabled>
     </label>
 
-    <button type="submit" name="add">Submit</button>
+    <button type="submit" name="update">Submit</button>
   </form>
  </div>
 </div>
-</div>
 </body>
-<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-<script type="text/javascript">
-
-</script>
 </html>

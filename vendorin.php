@@ -3,10 +3,9 @@ require 'database.php';
 $conn = new mysqli("localhost", "root", "", "productmanagement");
 $query = "SELECT * FROM product ORDER BY id DESC";  
 $result = mysqli_query($conn, $query);
-$select = new Select();
 if(!empty($_SESSION["id"])){
   $user = $select->selectUserById($_SESSION["id"]);
-  header("Location:dashboard.php");
+  header("Location:vendorin.php");
 }
 
 $limit = 5;
@@ -14,6 +13,7 @@ if (!isset ($_GET['page']) ) {
 $page_number = 1;  
 } else {  
 $page_number = $_GET['page'];  
+
 }
 ?>
 
@@ -23,17 +23,15 @@ $page_number = $_GET['page'];
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Document</title>
+    <title>Vendor</title>
     
 <style>
 @import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
 
 /* Bootstrap Icons */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
+</style>
 
-
-        </style>
 </head>
 <body>
 <!-- Dashboard -->
@@ -64,7 +62,7 @@ $page_number = $_GET['page'];
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="sidebarAvatar">
                         <a href="#" class="dropdown-item">Profile</a>
                         <a href="#" class="dropdown-item">Settings</a>
-                        <a href="#" class="dropdown-item">Billing</a>
+                        <a href="#" class="dropdown-item">Services</a>
                         <hr class="dropdown-divider">
                         <a href="#" class="dropdown-item">Logout</a>
                     </div>
@@ -80,12 +78,7 @@ $page_number = $_GET['page'];
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="dashboard.php">
-                            <i class="bi bi-shop"></i> Products
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="vendor.php">
+                        <a class="nav-link" href="vendorin.php">
                             <i class="bi bi-person"></i> Vendors
                         </a>
                     </li>
@@ -122,11 +115,11 @@ $page_number = $_GET['page'];
                         <!-- Actions -->
                         <div class="col-sm-6 col-12 text-sm-end">
                             <div class="mx-n1">
-                                <a href="productform.php" class="btn d-inline-flex btn-sm btn-primary mx-1">
+                                <a href="registration.php" class="btn d-inline-flex btn-sm btn-primary mx-1">
                                     <span class=" pe-2">
                                         <i class="bi bi-plus"></i>
                                     </span>
-                                    <span>Add Product</span>
+                                    <span>Add Vendor</span>
                                 </a>
                             </div>
                         </div>
@@ -134,7 +127,7 @@ $page_number = $_GET['page'];
                     <!-- Nav -->
                     <ul class="nav nav-tabs mt-4 overflow-x border-0">
                         <li class="nav-item ">
-                            <a href="#" class="nav-link active">All Products</a>
+                            <a href="#" class="nav-link active">Product</a>
                         </li>
                     </ul>
                 </div>
@@ -143,7 +136,7 @@ $page_number = $_GET['page'];
         <!-- Main -->
         <main class="py-6 bg-surface-secondary">
             <div class="container-fluid">
-                <div class="card shadow border-0 mb-7">
+            <div class="card shadow border-0 mb-7">
                     <div class="table-responsive" id="product_table">
                         <table class="table table-hover table-nowrap">
                             <thead class="thead-light">
@@ -180,7 +173,7 @@ $page_number = $_GET['page'];
                                     <td><?php echo $row['shipping'];?></td>
                                     <td><?php echo $row['status'];?></td>
                                     <td>
-                                        <a href="editproduct.php?id=<?php echo $row['id'];?>" class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
+                                        <a href="vendoredit.php?id=<?php echo $row['id'];?>" class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
                                     <span class=" pe-2">
                                         <i class="bi bi-pencil"></i>
                                     </span>
@@ -207,34 +200,4 @@ $page_number = $_GET['page'];
     </div>
 </div> 
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>  
-<script>  
- $(document).ready(function(){  
-      $(document).on('click', '.column_sort', function(){  
-           var column_name = $(this).attr("id");  
-           var order = $(this).data("order");  
-           var arrow = '';  
-           //glyphicon glyphicon-arrow-up  
-           //glyphicon glyphicon-arrow-down  
-           if(order == 'desc')  
-           {  
-                arrow = '&nbsp;<span class="glyphicon glyphicon-arrow-down"></span>';  
-           }  
-           else  
-           {  
-                arrow = '&nbsp;<span class="glyphicon glyphicon-arrow-up"></span>';  
-           }  
-           $.ajax({  
-                url:"sortproductdata.php",  
-                method:"POST",  
-                data:{column_name:column_name, order:order},  
-                success:function(data)  
-                {  
-                     $('#product_table').html(data);  
-                     $('#'+column_name+'').append(arrow);  
-                }  
-           })  
-      });  
- });  
- </script> 
 </html>

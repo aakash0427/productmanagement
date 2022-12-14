@@ -1,20 +1,18 @@
 <?php
 require "database.php";
 $conn = new mysqli("localhost", "root", "", "productmanagement");
-
-$id = $_GET['id']; // get id through query string
-
-$del = mysqli_query($conn,"DELETE FROM product WHERE id = '$id'"); // delete query
+$id = $_GET['id'];
+$del = mysqli_query($conn,"DELETE FROM product WHERE id = '$id'"); 
 
 if($del)
 {
-    mysqli_close($conn); // Close connection
-    header("location:dashboard.php"); // redirects to all records page
+    mysqli_close($conn); 
+    header("location:dashboard.php"); 
     exit;	
 }
 else
 {
-    echo "Error deleting record"; // display error message if not delete
+    echo "Error deleting record"; 
 }
 
 ?>

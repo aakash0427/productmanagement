@@ -31,7 +31,7 @@ body{
   background: url('http://all4desktop.com/data_images/original/4236532-background-images.jpg');
   font-family: 'Roboto Condensed', sans-serif;
   color: #262626;
-  margin: 5% 0;
+  margin: 0% 0;
 }
 .container{
   width: 50%;
@@ -39,6 +39,18 @@ body{
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
+
+  display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+}
+.screen {		
+	background: linear-gradient(90deg, #5D54A4, #7C78B8);		
+	position: relative;	
+	height: 572px;
+	width: 860px;	
+	box-shadow: 0px 0px 24px #5C5696;
 }
 @media (min-width: 1200px)
 {
@@ -117,6 +129,7 @@ button:hover{
 </head>
 <body>
     <div class="container">
+      <div class="screen">
   <div class="title">
       <h2>Edit Product Form</h2>
   </div>
@@ -129,29 +142,29 @@ button:hover{
     <input type="hidden" id="id" value="<?php echo $rows['id'];?>">
     <label>
       <span class="name">Product Name <span class="required">*</span></span>
-      <input type="text" name="productname" value="<?php echo $rows['productname'];?>" disabled>
+      <input type="text" name="productname" value="<?php echo $rows['productname'];?>">
     </label>
     <label>
       <span class="sku">SKU <span class="required">*</span></span>
-      <input type="text" name="sku" value="<?php echo $rows['sku'];?>" disabled>
+      <input type="text" name="sku" value="<?php echo $rows['sku'];?>">
     </label>
     <label>
       <span>Pattern <span class="required">*</span></span>
       <select name="pattern">
         <option value="select">Select a pattern...</option>
-        <option name="pattern" value="<?php echo $rows['pattern'];?>" disabled>Shirt</option>
-        <option name="pattern" value="<?php echo $rows['pattern'];?>" disabled>T-Shirt</option>
-        <option name="pattern" value="<?php echo $rows['pattern'];?>" disabled>Pant</option>
-        <option name="pattern" value="<?php echo $rows['pattern'];?>" disabled>Trouser</option>
-        <option name="pattern" value="<?php echo $rows['pattern'];?>" disabled>Jacket</option>
+        <option name="pattern" value="<?php echo $rows['pattern'];?>">Shirt</option>
+        <option name="pattern" value="<?php echo $rows['pattern'];?>">T-Shirt</option>
+        <option name="pattern" value="<?php echo $rows['pattern'];?>">Pant</option>
+        <option name="pattern" value="<?php echo $rows['pattern'];?>">Trouser</option>
+        <option name="pattern" value="<?php echo $rows['pattern'];?>">Jacket</option>
       </select>
     </label>
     <div class="row">
         <label><span>Size <span class="required" name="size">*</span></span></label>
-        <input type="Checkbox" name="size" value="<?php echo $rows['size'];?>" disabled>Small
-        <input type="Checkbox" name="size" value="<?php echo $rows['size'];?>" disabled>Medium
-        <input type="Checkbox" name="size" value="<?php echo $rows['size'];?>" disabled>Large
-        <input type="Checkbox" name="size" value="<?php echo $rows['size'];?>" disabled>X-Large
+        <input type="Checkbox" name="size" value="<?php echo $rows['size'];?>" >Small
+        <input type="Checkbox" name="size" value="<?php echo $rows['size'];?>" >Medium
+        <input type="Checkbox" name="size" value="<?php echo $rows['size'];?>" >Large
+        <input type="Checkbox" name="size" value="<?php echo $rows['size'];?>" >X-Large
     </div></br>
     <label>
       <span>Quantity <span class="required">*</span></span>
@@ -166,12 +179,13 @@ button:hover{
     </label>
     <label>
       <span class="shipping">Shipping<span class="required">*</span></span>
-      <input type="number" value="<?php echo $rows['shipping'];?>" name="shipping" disabled>
+      <input type="number" value="<?php echo $rows['shipping'];?>" name="shipping">
     </label>
 
     <button type="submit" name="update">Submit</button>
   </form>
  </div>
+</div>
 </div>
 </body>
 </html>

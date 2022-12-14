@@ -36,7 +36,7 @@ body{
   background: url('http://all4desktop.com/data_images/original/4236532-background-images.jpg');
   font-family: 'Roboto Condensed', sans-serif;
   color: #262626;
-  margin: 5% 0;
+  margin: 0% 0;
 }
 .container{
   width: 50%;
@@ -44,6 +44,19 @@ body{
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
+
+  display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+}
+
+.screen {		
+	background: linear-gradient(90deg, #5D54A4, #7C78B8);		
+	position: relative;	
+	height: 600px;
+	width: 860px;	
+	box-shadow: 0px 0px 24px #5C5696;
 }
 @media (min-width: 1200px)
 {
@@ -119,6 +132,7 @@ button:hover{
 </head>
 <body>
     <div class="container">
+      <div class="screen">
   <div class="title">
       <h2>Vendor Registration Form</h2>
   </div>
@@ -156,6 +170,7 @@ button:hover{
     <button type="submit" name="signup">Submit</button>
   </form>
  </div>
+</div>
 </div>
 </body>
 </html>

@@ -6,10 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vendor</title>
     <style>
-        /* Webpixels CSS */
-/* Utility and component-centric Design System based on Bootstrap for fast, responsive UI development */
-/* URL: https://github.com/webpixels/css */
-
 @import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
 
 /* Bootstrap Icons */
@@ -82,7 +78,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="vendorlogout.php">
+                        <a class="nav-link" href="logout.php">
                             <i class="bi bi-box-arrow-left"></i> Logout
                         </a>
                     </li>
@@ -118,12 +114,6 @@
                         <li class="nav-item ">
                             <a href="#" class="nav-link active">All Vendors</a>
                         </li>
-                        <!-- <li class="nav-item">
-                            <a href="#" class="nav-link font-regular">Shared</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link font-regular">File requests</a>
-                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -211,7 +201,7 @@ $(document).ready(function(){
    }
   });
  }
- $('#search_text').submit(function(){
+ $('#search_text').keyup(function(){
   var search = $(this).val();
   if(search != '')
   {

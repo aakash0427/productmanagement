@@ -1,22 +1,12 @@
 <?php
 require "database.php";
 
-if(isset($_POST["admin_in"])){
-  $login = new AdminLogin();
-  $result = $login->adminlogin($_POST["email"], $_POST["password"]);
-  if($result == 1){
-    $_SESSION["login"] = true;
-    $_SESSION["id"] = $login->idUser();
-    header("Location: dashboard.php");
-  }
-  elseif($result == 10){
-    echo
-    "<script> alert('Wrong Password'); </script>";
-  }
-  elseif($result == 100){
-    echo
-    "<script> alert('Admin Not Registered'); </script>";
-  }
+if(isset($_POST['submit'])){
+$email= $_POST['email'];
+$password=$_POST['password'];
+$type=$_POST['type'];
+$login = new Login();
+$result = $login->login($_POST["email"], $_POST["password"], $_POST["type"]);
 }
 ?>
 
@@ -142,6 +132,18 @@ body {
 	transition: .2s;
 }
 
+.login_select {
+	border: none;
+	border-bottom: 2px solid #D1D1D4;
+	background: none;
+	padding: 10px;
+	padding-left: 24px;
+	font-weight: 700;
+	width: 75%;
+	transition: .2s;
+
+}
+
 .login__input:active,
 .login__input:focus,
 .login__input:hover {
@@ -186,6 +188,13 @@ body {
 	<div class="screen">
 		<div class="screen__content">
 			<form class="login" action="" method="POST" autocomplete="off">
+				<div class="login__field" class="button__text">
+				<select name="type" class="login_select">
+					<option value=""disabled>Select User Type...</option>
+                    <option value="1"><i class="login__icon fas fa-envelope"></i>Admin</option>
+                    <option value="0">Vendor</option>
+                </select>
+				</div>
 				<div class="login__field">
 					<i class="login__icon fas fa-user"></i>
 					<input type="text" class="login__input" name="email" id="email" placeholder="Email-id">
@@ -194,7 +203,7 @@ body {
 					<i class="login__icon fas fa-lock"></i>
 					<input type="password" class="login__input" name="password" placeholder="Password">
 				</div>
-				<button class="button login__submit" type="submit" name="admin_in">
+				<button class="button login__submit" type="submit" name="submit">
 					<span class="button__text">Log In Now</span>
 					<i class="button__icon fas fa-chevron-right"></i>
 				</button>				
