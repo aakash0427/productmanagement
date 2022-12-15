@@ -8,11 +8,11 @@ if(isset($_POST["signup"])){
   if($result == 1){
     echo
     "<script> alert('Registration Successful'); </script>";
-    header("Location: dashboard.php");
+    header("Location: login.php");
   }
   elseif($result == 10){
     echo
-    "<script> alert('Username or Email Has Already Taken'); </script>";
+    "<script> alert('Firstname or Email Has Already Taken'); </script>";
   }
   elseif($result == 100){
     echo

@@ -163,9 +163,9 @@
                                         <i class="bi bi-pencil"></i>
                                     </span>
                                     <span>Edit</span></a>
-                                        <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
+                                        <a href="deletevendor.php?id=<?php echo $row['id'];?>"><button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
                                             <i class="bi bi-trash"></i>
-                                        </button>
+                                        </button></a>
                                     </td>
                                 </tr>
                                 <?php

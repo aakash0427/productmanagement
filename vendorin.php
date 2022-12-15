@@ -113,7 +113,7 @@ $page_number = $_GET['page'];
                             <h1 class="h2 mb-0 ls-tight">Product List</h1>
                         </div>
                         <!-- Actions -->
-                        <div class="col-sm-6 col-12 text-sm-end">
+                        <!-- <div class="col-sm-6 col-12 text-sm-end">
                             <div class="mx-n1">
                                 <a href="registration.php" class="btn d-inline-flex btn-sm btn-primary mx-1">
                                     <span class=" pe-2">
@@ -122,7 +122,7 @@ $page_number = $_GET['page'];
                                     <span>Add Vendor</span>
                                 </a>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <!-- Nav -->
                     <ul class="nav nav-tabs mt-4 overflow-x border-0">
@@ -178,7 +178,7 @@ $page_number = $_GET['page'];
                                         <i class="bi bi-pencil"></i>
                                     </span>
                                     <span>Edit</span></a>
-                                       <a href="deleteproduct.php?id=<?php echo $row['id'];?>"> <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
+                                       <a href="delvendorproduct.php?id=<?php echo $row['id'];?>"> <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
                                             <i class="bi bi-trash"></i>
                                         </button></a>
                                     </td>

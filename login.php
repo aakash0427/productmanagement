@@ -1,6 +1,6 @@
 <?php
+session_start();
 require "database.php";
-
 if(isset($_POST['submit'])){
 $email= $_POST['email'];
 $password=$_POST['password'];
@@ -181,7 +181,26 @@ body {
 	margin-left: auto;
 	color: #7875B5;
 }
-        </style>
+
+h6 {
+    display: block;
+	text-align: center;
+	color:#fff;
+    font-size: 0.70em;
+    margin-block-start: 1.33em;
+    margin-block-end: 2.33em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: 700;
+}
+
+a{
+	color:#fff;
+	font-weight:700;
+	font-size: 1.23em;
+	text-decoration:none;
+}
+    </style>
 </head>
 <body>
     <div class="container">
@@ -206,7 +225,8 @@ body {
 				<button class="button login__submit" type="submit" name="submit">
 					<span class="button__text">Log In Now</span>
 					<i class="button__icon fas fa-chevron-right"></i>
-				</button>				
+				</button></br></br>
+				<h6>Vendor not Registered yet? <a class="register" href="registration.php">Register Here</a></h6>				
 			</form>
 		</div>
 		<div class="screen__background">

@@ -2,15 +2,19 @@
 require 'database.php';
 $conn = new mysqli("localhost", "root", "", "productmanagement");
 
-if(isset($_POST['update']))
+if(isset($_POST['updateproduct']))
 {
  $id=$_GET['id'];
+ $productname= $_POST['productname'];
  $sku = $_POST['sku'];
+ $pattern = $_POST['pattern'];
+ $size = $_POST['size'];
  $quantity = $_POST['quantity'];
+ $shipping = $_POST['shipping'];
  
  
  $res= new Database();
- $res->edit('product',$id,$sku,$quantity);
+ $res->edit('product',$id,$productname,$sku,$pattern,$size,$quantity,$shipping);
 if ($res == true) {
  header('location:dashboard.php');
 }
@@ -160,7 +164,7 @@ button:hover{
       </select>
     </label>
     <div class="row">
-        <label><span>Size <span class="required" name="size">*</span></span></label>
+        <label><span>Size <span class="required">*</span></span></label>
         <input type="Checkbox" name="size" value="<?php echo $rows['size'];?>" >Small
         <input type="Checkbox" name="size" value="<?php echo $rows['size'];?>" >Medium
         <input type="Checkbox" name="size" value="<?php echo $rows['size'];?>" >Large
@@ -168,13 +172,13 @@ button:hover{
     </div></br>
     <label>
       <span>Quantity <span class="required">*</span></span>
-      <select name="quantity" value="<?php echo $rows['quantity'];?>">
+      <select name="quantity">
         <option value="select">Select quantity...</option>
-        <option name="quantity" value="<?php echo $rows['1'];?>">1</option>
-        <option name="quantity" value="<?php echo $rows['2'];?>">2</option>
-        <option name="quantity" value="<?php echo $rows['3'];?>">3</option>
-        <option name="quantity" value="<?php echo $rows['4'];?>">4</option>
-        <option name="quantity" value="<?php echo $rows['5'];?>">5</option>
+        <option name="quantity" value="<?php echo $rows['quantity'];?>">1</option>
+        <option name="quantity" value="<?php echo $rows['quantity'];?>">2</option>
+        <option name="quantity" value="<?php echo $rows['quantity'];?>">3</option>
+        <option name="quantity" value="<?php echo $rows['quantity'];?>">4</option>
+        <option name="quantity" value="<?php echo $rows['quantity'];?>">5</option>
       </select>
     </label>
     <label>
@@ -182,7 +186,7 @@ button:hover{
       <input type="number" value="<?php echo $rows['shipping'];?>" name="shipping">
     </label>
 
-    <button type="submit" name="update">Submit</button>
+    <button type="submit" name="updateproduct">Submit</button>
   </form>
  </div>
 </div>

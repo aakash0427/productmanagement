@@ -1,4 +1,5 @@
 <?php
+session_start();
 require 'database.php';
 $conn = new mysqli("localhost", "root", "", "productmanagement");
 $query = "SELECT * FROM product ORDER BY id DESC";  

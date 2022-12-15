@@ -17,9 +17,21 @@ class Database{
   $result = $this->conn->query($sql);
   }
 
-  public function edit($table,$id,$sku,$quantity)
+  public function edit($table,$id,$productname,$sku,$pattern,$size,$quantity,$shipping)
   {
-  $res = mysqli_query($this->conn,"UPDATE $table SET id='$id', sku='$sku', quantity='$quantity' WHERE id=".$id);
+  $res = mysqli_query($this->conn,"UPDATE $table SET id='$id',productname='$productname', sku='$sku',pattern='$pattern',size='$size', quantity='$quantity',shipping='$shipping' WHERE id='$id'");
+  return $res;
+  }
+
+  public function editvendor($table,$id,$fname,$lname,$gender,$email,$contact)
+  {
+  $res = mysqli_query($this->conn,"UPDATE $table SET id='$id',fname='$fname', lname='$lname',gender='$gender',email='$email', contact='$contact' WHERE id='$id'");
+  return $res;
+  }
+
+  public function editproduct($table,$id,$sku,$quantity)
+  {
+  $res = mysqli_query($this->conn,"UPDATE $table SET id='$id',quantity='$quantity' WHERE id='$id'");
   return $res;
   }
 }
@@ -27,7 +39,7 @@ class Database{
 class Login extends Database{
   public $id;
   public function login($email, $password, $type){
-  $sql= "SELECT * FROM admins WHERE email='".$email."' AND password='".$password."' AND type='".$type."'";
+  $sql= "SELECT * FROM admins WHERE email='$email' AND password='$password' AND type='$type'";
   $query= mysqli_query($this->conn, $sql);
 
   if(mysqli_num_rows($query)==1 && $type==1)

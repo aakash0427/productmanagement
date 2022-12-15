@@ -13,9 +13,9 @@ if(isset($_POST['editvendor']))
  
  
  $res= new Database();
- $res->edit('users',$id,$fname,$lname,$gender,$email,$contact);
+ $res->editvendor('users',$id,$fname,$lname,$gender,$email,$contact);
 if ($res == true) {
- header('location:dashboard.php');
+ header('location:vendor.php');
 }
 }
 ?>

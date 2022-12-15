@@ -10,9 +10,9 @@ if(isset($_POST['update']))
  
  
  $res= new Database();
- $res->edit('product',$id,$sku,$quantity);
+ $res->editproduct('product',$id,$quantity);
 if ($res == true) {
- header('location:dashboard.php');
+ header('location:vendorin.php');
 }
 }
 ?>
@@ -124,7 +124,7 @@ button:hover{
   <form action="" method="POST" autocomplete="off">
   <?php
     $id = $_GET['id'];
-    $rows = mysqli_fetch_assoc(mysqli_query($conn,"SELECT * FROM product WHERE id = $id"));
+    $rows = mysqli_fetch_assoc(mysqli_query($conn,"SELECT * FROM product WHERE id = '$id'"));
     ?>
     <input type="hidden" id="id" value="<?php echo $rows['id'];?>">
     <label>
@@ -157,11 +157,11 @@ button:hover{
       <span>Quantity <span class="required">*</span></span>
       <select name="quantity" value="<?php echo $rows['quantity'];?>">
         <option value="select">Select quantity...</option>
-        <option name="quantity" value="<?php echo $rows['1'];?>">1</option>
-        <option name="quantity" value="<?php echo $rows['2'];?>">2</option>
-        <option name="quantity" value="<?php echo $rows['3'];?>">3</option>
-        <option name="quantity" value="<?php echo $rows['4'];?>">4</option>
-        <option name="quantity" value="<?php echo $rows['5'];?>">5</option>
+        <option name="quantity" value="<?php echo $rows['quantity'];?>">1</option>
+        <option name="quantity" value="<?php echo $rows['quantity'];?>">2</option>
+        <option name="quantity" value="<?php echo $rows['quantity'];?>">3</option>
+        <option name="quantity" value="<?php echo $rows['quantity'];?>">4</option>
+        <option name="quantity" value="<?php echo $rows['quantity'];?>">5</option>
       </select>
     </label>
     <label>
